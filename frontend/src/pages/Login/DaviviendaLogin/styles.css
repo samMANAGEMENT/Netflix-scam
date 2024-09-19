@@ -1,0 +1,14 @@
+.custom-button {
+    font-family: "HelveticaNeueLTStdBdCn", sans-serif;
+    font-size: 14px;
+    margin: 21px 0 0;
+    background-color: #ED1C27;
+    border: none;
+    border-radius: 5px;
+    width: 90px;
+    padding: 8px 0 10px;
+    color: #FFF;
+    box-shadow: 0 -4px 0 0 #ad0000 inset;
+    outline: none;
+  }
+  

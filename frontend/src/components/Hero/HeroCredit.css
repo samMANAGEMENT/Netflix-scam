@@ -1,0 +1,27 @@
+/* Agrega este CSS a tu archivo de estilos globales o en un módulo CSS */
+
+.relative {
+    position: relative;
+}
+
+input {
+    padding-top: 1.5rem; /* Ajusta el espacio superior del input para el label flotante */
+}
+
+label {
+    position: absolute;
+    top: 1.5rem;
+    left: 0.75rem;
+    color: #9ca3af; /* Color del texto del label */
+    pointer-events: none; /* Evita que el label interfiera con el clic en el input */
+    transition: all 0.2s ease-out;
+    font-size: 1rem;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 0.75rem;
+    font-size: 0.75rem; /* Tamaño del texto cuando el label está arriba */
+    color: #6366f1; /* Color del texto del label cuando el input está enfocado */
+}

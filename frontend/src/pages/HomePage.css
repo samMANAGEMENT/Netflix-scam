@@ -1,0 +1,12 @@
+.home-page {
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
+    url('../../public/assets/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 40vh;
+  width: 100%; /* Asegúrate de que ocupe todo el ancho */
+  position: relative; /* Necesario para el pseudo-elemento */
+}
+
