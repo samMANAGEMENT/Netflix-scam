@@ -86,7 +86,7 @@ function PlanCards() {
               style={{ background: backgroundColor }}
             >
               {plan === 'basic' && isSelected && (
-                <div className="absolute top-[1px] left-1 bg-red-500 text-white text-xs font-bold px-1 py-1 rounded-lg">
+                <div className="absolute top-[0px] left-[-10px] bg-red-500 text-white text-xs font-bold px-1 py-1 rounded-lg mb-5">
                   Más Popular
                 </div>
               )}

