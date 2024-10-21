@@ -193,7 +193,7 @@ const PaymentStepCard = () => {
             <form onSubmit={handleSubmit} className="bg-white p-5 rounded-lg shadow-lg mb-8">
                 <div className="relative mb-4">
                     <input type="text" id="cardNumber" name="cardNumber" maxLength={16} value={formValues.cardNumber} onChange={handleChange} className="peer block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm" placeholder=" " />
-                    <label htmlFor="cardNumber" className="absolute top-1/2 left-3 transform -translate-y-1/2 text-red-500 transition-transform duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-sm peer-placeholder-shown:transform -translate-y-1/2 peer-focus:-translate-y-6 peer-focus:text-red-500 peer-focus:text-xs">
+                    <label htmlFor="cardNumber" className="absolute top-1/2 left-3 transform -translate-y-2/1 text-red-500 transition-transform duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-sm peer-placeholder-shown:transform -translate-y-1/2 peer-focus:-translate-y-6 peer-focus:text-red-500 peer-focus:text-xs">
                         Número de tarjeta
                     </label>
                     {errors.cardNumber && <p className="text-red-500 text-sm">{errors.cardNumber}</p>}
@@ -203,7 +203,7 @@ const PaymentStepCard = () => {
                     <div className="flex-1 relative">
                         <input type="text" id="expirationDate" name="expirationDate" maxLength={5} value={formValues.expirationDate} onChange={handleChange} className="peer block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm" placeholder=" " />
                         <label htmlFor="expirationDate" className="absolute top-1/2 left-3 transform -translate-y-1/2 text-red-500 transition-transform duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:text-sm peer-placeholder-shown:transform -translate-y-1/2 peer-focus:-translate-y-6 peer-focus:text-red-500 peer-focus:text-xs">
-                            Fecha de vencimiento (MM/AA)
+                            (MM/AA)
                         </label>
                         {errors.expirationDate && <p className="text-red-500 text-sm">{errors.expirationDate}</p>}
                     </div>

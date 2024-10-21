@@ -64,7 +64,7 @@ const MovieSlider = () => {
                 {/* Contenedor del título y los selectores */}
                 <div className="mb-4 pt-5">
                     <div className="flex items-center gap-4">
-                        <h2 className="text-white text-2xl font-bold">Tendencias</h2>
+                        <h2 className="text-white text-2xl font-bold pt-0">Tendencias</h2>
                         <select className="bg-gray-800 text-white border border-gray-700 rounded py-1 px-2">
                             <option>Colombia</option>
                         </select>

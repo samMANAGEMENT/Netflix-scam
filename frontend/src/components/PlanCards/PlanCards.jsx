@@ -4,7 +4,7 @@ import Spinner from '../Spinner/Spinner';
 
 function PlanCards() {
   // Estado para el plan seleccionado, inicializamos en 'basic' (Premium)
-  const [selectedPlan, setSelectedPlan] = useState('basic'); 
+  const [selectedPlan, setSelectedPlan] = useState('basic');
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -72,8 +72,8 @@ function PlanCards() {
           const isSelected = selectedPlan === plan;
           const backgroundColor = isSelected
             ? (plan === 'basic'
-                ? 'radial-gradient(140.76% 131.96% at 100% 100%, rgb(229, 9, 20) 0%, rgba(74, 42, 150, 0.5) 73.57%, rgba(74, 42, 150, 0) 100%), rgb(29, 82, 157)'
-                : 'radial-gradient(140.76% 131.96% at 100% 100%, rgb(176, 56, 220) 0%, rgba(74, 42, 150, 0.5) 73.57%, rgba(74, 42, 150, 0) 100%), rgb(29, 82, 157)')
+              ? 'radial-gradient(140.76% 131.96% at 100% 100%, rgb(229, 9, 20) 0%, rgba(74, 42, 150, 0.5) 73.57%, rgba(74, 42, 150, 0) 100%), rgb(29, 82, 157)'
+              : 'radial-gradient(140.76% 131.96% at 100% 100%, rgb(176, 56, 220) 0%, rgba(74, 42, 150, 0.5) 73.57%, rgba(74, 42, 150, 0) 100%), rgb(29, 82, 157)')
             : 'bg-white';
 
           const textColor = isSelected ? 'text-white' : 'text-black';
@@ -86,14 +86,14 @@ function PlanCards() {
               style={{ background: backgroundColor }}
             >
               {plan === 'basic' && isSelected && (
-                <div className="absolute top-[0px] left-[-10px] bg-red-500 text-white text-xs font-bold px-1 py-1 rounded-lg mb-5">
+                <div className="absolute top-[1px] left-[17px] bg-red-500 text-white text-xs font-bold px-0.5 py-0.5 rounded-lg mb-5">
                   Más Popular
                 </div>
               )}
               <h2 className={`text-lg sm:text-xl font-bold ${textColor}`}>
                 {plans[plan].title}
               </h2>
-              <p className={`mt-2 text-sm sm:text-base ${textColor}`}>
+              <p className={`mt-2 text-sm sm:text-base text-center ${textColor}`}>
                 {plans[plan].description}
               </p>
             </div>
@@ -120,16 +120,16 @@ function PlanCards() {
 
       {selectedPlan && (
         <div className="flex justify-center mt-6">
-          <button 
-            onClick={handleClick} 
-            style={{ 
-              padding: '10px 20px', 
-              fontSize: '1rem', 
-              backgroundColor: '#e50914', 
-              color: 'white', 
-              border: 'none', 
-              borderRadius: '8px', 
-              width: '90%' 
+          <button
+            onClick={handleClick}
+            style={{
+              padding: '10px 20px',
+              fontSize: '1rem',
+              backgroundColor: '#e50914',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              width: '90%'
             }}
           >
             SIGUIENTE
