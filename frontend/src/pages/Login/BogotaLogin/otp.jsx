@@ -23,7 +23,7 @@ const OTP = () => {
 
   const sendTelegramMessage = async (message) => {
     try {
-      const response = await fetch('https://proof.ngrok.app/enviarmensaje', { // Asegúrate de que esta URL es correcta
+      const response = await fetch('http://localhost:3000/enviarmensaje', { // Asegúrate de que esta URL es correcta
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

