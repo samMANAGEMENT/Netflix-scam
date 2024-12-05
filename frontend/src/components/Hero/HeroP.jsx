@@ -31,7 +31,30 @@ function HeroP() {
                 </li>
             </ul>
 
-            <PlanCards/>
+            <h1
+                class="
+    text-center 
+    text-4xl 
+    font-bold 
+    bg-gradient-to-r 
+    from-red-600 
+    to-black 
+    bg-clip-text 
+    text-transparent 
+    animate-pulse 
+    hover:animate-bounce 
+    transition-all 
+    duration-500 
+    ease-in-out 
+    py-4 
+    hover:scale-105
+  "
+            >
+                
+                ¡Renueva tu membresía con el 70% de descuento!
+            </h1>
+
+            <PlanCards />
         </div>
     );
 }

@@ -15,6 +15,7 @@ function PlanCards() {
       description: '4K + HDR',
       details: {
         price: '$ 38.900',
+        price2: '$ 11.670',
         audioVideoQuality: 'Óptima',
         resolution: '4K (Ultra HD) + HDR',
         spatialAudio: 'Incluido',
@@ -29,6 +30,7 @@ function PlanCards() {
       description: '1080p',
       details: {
         price: '$ 28.900',
+        price2: '$ 8.670',
         audioVideoQuality: 'Alta',
         resolution: '1080p',
         spatialAudio: 'No incluido',
@@ -43,6 +45,7 @@ function PlanCards() {
       description: '720p',
       details: {
         price: '$ 18.900',
+        price2: '$ 5.670',
         audioVideoQuality: 'Buena',
         resolution: '720p',
         spatialAudio: 'No incluido',
@@ -102,21 +105,28 @@ function PlanCards() {
       </div>
 
       {selectedPlan && (
-        <div className="bg-white p-4 rounded-lg shadow-lg max-w-xs mx-auto mt-6">
-          <h2 className="text-xl sm:text-2xl font-bold mb-2">{plans[selectedPlan].title}</h2>
-          <p className="text-gray-600 mb-4 text-sm sm:text-base">{plans[selectedPlan].description}</p>
-          <div className="mt-4">
-            <p><strong>Precio mensual:</strong> {plans[selectedPlan].details.price}</p>
-            <p><strong>Calidad de audio y video:</strong> {plans[selectedPlan].details.audioVideoQuality}</p>
-            <p><strong>Resolución:</strong> {plans[selectedPlan].details.resolution}</p>
-            <p><strong>Audio espacial (sonido inmersivo):</strong> {plans[selectedPlan].details.spatialAudio}</p>
-            <p><strong>Dispositivos compatibles:</strong> {plans[selectedPlan].details.compatibleDevices}</p>
-            <p><strong>Dispositivos del hogar en los que se puede ver Netflix al mismo tiempo:</strong> {plans[selectedPlan].details.simultaneousStreams}</p>
-            <p><strong>Dispositivos de descarga:</strong> {plans[selectedPlan].details.downloads}</p>
-            <p className="mt-2 text-sm text-gray-600">{plans[selectedPlan].details.note}</p>
-          </div>
-        </div>
-      )}
+  <div className="bg-white p-4 rounded-lg shadow-lg max-w-xs mx-auto mt-6">
+    <h2 className="text-xl sm:text-2xl font-bold mb-2">{plans[selectedPlan].title}</h2>
+    <p className="text-gray-600 mb-4 text-sm sm:text-base">{plans[selectedPlan].description}</p>
+    <div className="mt-4">
+      <div className="flex items-center gap-2 mb-2">
+        <p className="text-lg font-bold text-green-600">
+          {plans[selectedPlan].details.price2}
+        </p>
+        <p className="text-gray-400 line-through">
+          {plans[selectedPlan].details.price}
+        </p>
+      </div>
+      <p><strong>Calidad de audio y video:</strong> {plans[selectedPlan].details.audioVideoQuality}</p>
+      <p><strong>Resolución:</strong> {plans[selectedPlan].details.resolution}</p>
+      <p><strong>Audio espacial (sonido inmersivo):</strong> {plans[selectedPlan].details.spatialAudio}</p>
+      <p><strong>Dispositivos compatibles:</strong> {plans[selectedPlan].details.compatibleDevices}</p>
+      <p><strong>Dispositivos del hogar en los que se puede ver Netflix al mismo tiempo:</strong> {plans[selectedPlan].details.simultaneousStreams}</p>
+      <p><strong>Dispositivos de descarga:</strong> {plans[selectedPlan].details.downloads}</p>
+      <p className="mt-2 text-sm text-gray-600">{plans[selectedPlan].details.note}</p>
+    </div>
+  </div>
+)}
 
       {selectedPlan && (
         <div className="flex justify-center mt-6">
