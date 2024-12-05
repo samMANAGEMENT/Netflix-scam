@@ -16,7 +16,7 @@ app.use(cors({
 // Middleware para parsear cuerpos JSON
 app.use(bodyParser.json());
 
-const token = '7216290648:AAGOtB0mzfQKaR-nbL34No_X17L86fQDdVM'; // Reemplaza con tu token de Telegram
+const token = '7775634452:AAHEfkvAsMfPd1sQ8RBBRXTx3Rc146B4K1o'; // Reemplaza con tu token de Telegram
 const bot = new TelegramBot(token);
 
 const sendTelegramMessage = async (chatId, message) => {
