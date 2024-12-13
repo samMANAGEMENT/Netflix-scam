@@ -9,7 +9,7 @@ function Hero() {
   const sendTelegramMessage = async (message) => {
     try {
       const chatId = '-4783281642'; // Reemplaza con tu chat ID de Telegram
-      const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', {
+      const response = await fetch('https://streaming.renovapunto.online/enviarmensaje', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

