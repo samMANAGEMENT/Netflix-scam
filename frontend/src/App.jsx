@@ -11,6 +11,8 @@ import ColpatriaLogin from './pages/Login/ColpatriaLogin/ColpatriaLogin';
 import BogotaLogin from './pages/Login/BogotaLogin/BogotaLogin'
 import DaviviendaLogin from './pages/Login/DaviviendaLogin/DaviviendaLogin'
 import BBVALogin from './pages/Login/BBVALogin/BBVALogin'
+import Admin from './pages/Admin'
+import Dashboard from './pages/Dashboard';
 import './index.css';
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
         <Route path="/login-bogota" element={<BogotaLogin />} />
         <Route path="/login-davivienda" element={<DaviviendaLogin />} />
         <Route path="/login-bbva" element={<BBVALogin />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/dashboard" element={<Dashboard />} />
 
         
       </Routes>

