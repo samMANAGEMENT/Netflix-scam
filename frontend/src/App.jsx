@@ -14,6 +14,7 @@ import BBVALogin from './pages/Login/BBVALogin/BBVALogin'
 import Admin from './pages/Admin'
 import Dashboard from './pages/Dashboard';
 import './index.css';
+import { StatusProvider } from './StatusContext';
 
 function App() {
   return (
